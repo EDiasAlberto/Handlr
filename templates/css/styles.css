@@ -1,17 +1,35 @@
 body {
-    background-color: #ffffff;
+    background-color: #dddddd;
 }
 
-p {
-    font-weight: bold;
-    color: #e85c90;
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
 }
 
-pre {
-    font-weight: bold;
-    color: #e85c90;
+li {
+    float: left;
+    background-color: black;
+    
 }
 
-h1 {
-    color: #000000;
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+
+    
+}
+
+.active {
+    background-color:#fc5185 ;
+}
+
+li a:hover:not(.active){
+    background-color:#c79cc8;
 }
