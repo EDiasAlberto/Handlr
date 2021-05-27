@@ -1,5 +1,6 @@
 body {
     background-color: #dddddd;
+    min-height:100%;
 }
 
 ul {
@@ -32,4 +33,21 @@ li a {
 
 li a:hover:not(.active){
     background-color:#c79cc8;
+}
+
+div.homePageMain{
+    position:relative;
+    height:100%;
+    width: 66%;
+    outline: 2px dashed red;
+    float:left;
+    
+}
+
+div.homePageListings{
+    position:relative;
+    height:100%;
+    width: 33%;
+    outline: 2px dashed green;
+    float:right;
 }
