@@ -31,6 +31,7 @@ li a {
     font-size: larger;
     font-weight:bolder;
     height:100%;
+    font-family: "comic sans ms";
     
 }
 
@@ -94,4 +95,8 @@ div.title{
 .logo{
     max-width: 200px;
     max-height: 42px
+}
+
+h2{
+    font-family: "comic sans ms";
 }
