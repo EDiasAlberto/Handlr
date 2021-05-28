@@ -1,5 +1,5 @@
 body {
-    background-color: #dddddd;
+    background-color: #ffffff;
     min-height:100%;
 }
 
@@ -8,46 +8,90 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: black;
+    width:80%;
+    height:100%;
+    float: left;
+
 }
 
 li {
+    height:100%;
     float: left;
-    background-color: black;
+  
     
 }
 
 li a {
+    position: relative;
     display: block;
-    color: white;
+    color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-
+    font-size: larger;
+    font-weight:bolder;
+    height:100%;
     
 }
 
 .active {
-    background-color:#fc5185 ;
+    background-color:#fc5185;
+    height:100%;
 }
 
 li a:hover:not(.active){
     background-color:#c79cc8;
+    height:100%;
 }
 
 div.homePageMain{
     position:relative;
     height:100%;
     width: 66%;
-    outline: 2px dashed red;
+    border: 2px solid #dddddd;
+    background-color: #dddddd;
+    border-radius:10px;
     float:left;
     
 }
 
+div.menuBar{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #dddddd;
+    border-radius:10px;
+}
+
+div.menuBarLogo{
+    min-width:fit-content;
+    max-width:20%;
+    height:100%;
+    border: 2px solid #fc5185;
+    border-radius:10px;
+    float:right;
+}
+
 div.homePageListings{
-    position:relative;
     height:100%;
     width: 33%;
-    outline: 2px dashed green;
+    border: 2px solid #dddddd;
+    background-color: #dddddd;
+    border-radius:10px;
     float:right;
+}
+
+div.title{
+    background-color: #dddddd;
+    width: 98%;
+    height: 10%;
+    margin:auto;
+    text-align:left;
+    border-radius:3px;
+}
+
+.logo{
+    max-width: 200px;
+    max-height: 42px
 }
