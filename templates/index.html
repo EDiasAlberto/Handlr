@@ -2,20 +2,18 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/templates/css/styles.css">
-    <link rel=”stylesheet” href=”https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css”rel=”nofollow” integrity=”sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I” crossorigin=”anonymous”>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
     <title>Handlr</title>
 </head>
 <body>
     <div class="menuBar">
         <ul>
-            <li><a class="active" href="index.html">Handlr</a></li>
-            <li><a href="listings.html">Listings</a></li>
-            <li><a href="account.html">Account</a></li>
-            <li><a href="login.html">Login Page</a></li>
+            <li><a class="active" href="/home">Handlr</a></li>
+            <li><a href="/listings">Listings</a></li>
+            <li><a href="/account">Account</a></li>
         </ul>
         <div class="menuBarLogo">
-            <img class="logo" src="./images/nuggets.jpeg" alt="logo placeholder">
+            <img src="{{ url_for('static', filename='nuggets.jpeg')}}" alt="logo placeholder" style="max-width:200px;max-height:42px;">
         </div>
     </div>
     <br>  

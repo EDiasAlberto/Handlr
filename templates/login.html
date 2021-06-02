@@ -1,17 +1,30 @@
+<!DOCTYPE html>
+<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/templates/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+    <script src="{{ url_for('static', filename='script.js')}}" type="text/javascript"></script>
     <title>Handlr</title>
 </head>
 
 <body>
-    <div class="menuBar">
-        <ul>
-            <li><a href="index.html">Handlr</a></li>
-            <li><a href="listings.html">Listings</a></li>
-            <li><a href="account.html">Account</a></li>
-            <li><a class="active" href="login.html">Login Page</a></li>
-        </ul>
+    <div class="loginPageMain">
+        <img src="{{ url_for('static', filename='nuggets.jpeg')}}" class="logo">
+        <br>
+        <br>
+        <h1>Welcome to Handlr</h1>
+        <p>Please enter your login details</p>
+        <br><br>
+        <form action="index.html">
+            <label for="username">Username: </label>
+            <input type="text" id="username" name="username" required>
+            <br><br>
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="password" required>
+            <br><br>
+            <input type="submit" value="Login">
+        </form>
     </div>
 
 </body>
+</html>

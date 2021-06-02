@@ -52,7 +52,20 @@ div.homePageMain{
     background-color: #dddddd;
     border-radius:10px;
     float:left;
-    
+}
+
+div.listingPageMain{
+
+}
+
+div.loginPageMain{
+    margin:auto;
+    height:100%;
+    width:66%;
+    border: 2px solid #dddddd;
+    background-color: #dddddd;
+    border-radius: 10px;
+    text-align:center;
 }
 
 div.menuBar{
@@ -62,6 +75,7 @@ div.menuBar{
     overflow: hidden;
     background-color: #dddddd;
     border-radius:10px;
+    height:100%;
 }
 
 div.menuBarLogo{
@@ -82,6 +96,8 @@ div.homePageListings{
     float:right;
 }
 
+
+
 div.title{
     background-color: #dddddd;
     width: 98%;
@@ -92,6 +108,9 @@ div.title{
 }
 
 .logo{
+    position:relative;
     max-width: 200px;
-    max-height: 42px
+    max-height: 50px;
+    border-radius: 10px;
+    float:right;
 }
