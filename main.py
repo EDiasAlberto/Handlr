@@ -1,15 +1,68 @@
-from flask import Flask as fl
-from flask import render_template
-import os
+from flask import Flask
+from flask import render_template, request, redirect, url_for, flash
+from dotenv import load_dotenv
+import os, pymongo
 
-webapp = fl(__name__)
+load_dotenv()
+databaseURL = os.getenv("databaseURL")
 
-@webapp.route("/")
-def index():
-    return render_template("login.html")
+
+webapp = Flask(__name__)
+
+def verifyUsr(username, password):
+    client = pymongo.MongoClient(databaseURL)
+    db = client.handlr_database
+    collection = db["accounts"]
+    result = collection.find_one({"username": username, "password":password})
+    if result is None:
+        return False
+    return True
+
+def newUsr(username, password, confirmPassword):
+    client = pymongo.MongoClient(databaseURL)
+    db = client.handlr_database
+    collection = db["accounts"]
+    if password!=confirmPassword:
+        return "The passwords do not match."
+    elif collection.find_one({"username":username.lower()})!=None:
+        return "That account already exists."
+    collection.insert_one({"username":username.lower(), "password":password})
+    
+    
+
+
+
+
+
+@webapp.route("/", methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        username = request.form["username"]
+        password = request.form["password"]
+        
+        valid = verifyUsr(username, password)
+        if not valid:
+            error = 'Invalid Credentials. Please try again.'
+        else:
+            return redirect(url_for("index"))
+    return render_template('login.html', error=error)
+
+@webapp.route("/register", methods=['GET', 'POST'])
+def register():
+    error = None
+    if request.method == 'POST':
+        username = request.form["username"]
+        password = request.form["password"]
+        confirmPassword = request.form["confirmPassword"]
+        error = newUsr(username, password, confirmPassword)
+        if error==None:
+            return redirect(url_for("login"))
+    return render_template('register.html', error=error)
+
 
 @webapp.route("/home")
-def home():
+def index():
     return render_template("index.html")
 
 @webapp.route("/listings")
@@ -18,6 +71,7 @@ def listings():
 
 @webapp.route("/account")
 def account():
+    flash("hello")
     return render_template("account.html")
 
 @webapp.route("/secret/")

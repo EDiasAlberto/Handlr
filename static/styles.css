@@ -115,3 +115,34 @@ div.title{
     border-radius: 10px;
     float:right;
 }
+
+#formContainer{
+    width:100%;
+    margin:auto;
+  }
+#formC{
+    width:100%;
+  }
+  .rows{
+    width:100%;
+    display:block;
+  
+  }
+  .column{
+      width:100%;
+      display:inline-block;
+      
+  }
+  .theLabels{
+    
+    width:48%;
+    display:inline-block;
+    text-align:right;
+  }
+  .theInputs{
+    
+  
+    width:48%;
+    display:inline-block;
+    text-align:right;
+  }

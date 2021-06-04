@@ -13,7 +13,7 @@
         <br>
         <br>
         <h1>Welcome to Handlr</h1>
-        <p>Please enter your login details</p>
+        <p>Please create an account</p>
         <br><br>
         <div id="formContainer">
             <form id="formC" action="" method="post">
@@ -28,17 +28,24 @@
                 <div class="rows">
                     <div class="column">
                         <label class="theLabels"  for="password">Password: </label>
+
                         <input class="theInputs" type="password" id="password" name="password" value="{{request.form.password }}" required>
                     </div>
                 </div>
                 <br>
-                
-                <input type="submit" value="Login">
+                <div class="rows">
+                    <div class="column">
+                        <label class="theLabels"  for="confirmPassword">Confirm Password: </label>
+
+                        <input class="theInputs" type="password" id="password" name="confirmPassword" value="{{request.form.password }}" required>
+                    </div>
+                </div>
+                <br>
+                <input type="submit" value="Register">
             </form>
             <br>
-            <a href="/register" style="text-decoration: none;">Don't have an account?</a>
             {% if error %}
-            <script type="text/javascript">alert("Invalid username and/or password")</script>
+            <p>{{error}}</p>
             {% endif %}
         </div>
     </div>
