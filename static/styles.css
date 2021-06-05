@@ -48,7 +48,7 @@ li a:hover:not(.active){
 div.homePageMain{
     position:relative;
     height:100%;
-    width: 66%;
+    width: 60%;
     border: 2px solid #dddddd;
     background-color: #dddddd;
     border-radius:10px;
@@ -90,7 +90,7 @@ div.menuBarLogo{
 
 div.homePageListings{
     height:100%;
-    width: 33%;
+    width: 30%;
     border: 2px solid #dddddd;
     background-color: #dddddd;
     border-radius:10px;
@@ -135,14 +135,22 @@ div.title{
   }
   .theLabels{
     
-    width:48%;
+    width:30%;
     display:inline-block;
     text-align:right;
   }
   .theInputs{
     
   
-    width:48%;
+    width:66%;
     display:inline-block;
     text-align:left;
   }
+
+.registerError{
+    width:100%;
+    position:relative;
+    float:center;
+    color:#fc5185;
+    font-weight: bolder;
+}

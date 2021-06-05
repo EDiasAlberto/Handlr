@@ -37,16 +37,26 @@
                     <div class="column">
                         <label class="theLabels"  for="confirmPassword">Confirm Password: </label>
 
-                        <input class="theInputs" type="password" id="password" name="confirmPassword" value="{{request.form.password }}" required>
+                        <input class="theInputs" type="password" id="confirmPassword" name="confirmPassword" value="{{request.form.password }}" required>
                     </div>
                 </div>
                 <br>
                 <input type="submit" value="Register">
+                <p>
+                    {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        <ul class="registerError">
+                        {% for message in messages %}
+                          <li class="registerError">{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                      {% endif %}
+                    {% endwith %}
+                </p>
             </form>
+            
             <br>
-            {% if error %}
-            <p>{{error}}</p>
-            {% endif %}
+            
         </div>
     </div>
 

@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template, request, redirect, url_for, flash
 from dotenv import load_dotenv
-import os, pymongo
+import os, pymongo, random
 
 load_dotenv()
 databaseURL = os.getenv("databaseURL")
@@ -28,12 +28,16 @@ def newUsr(username, password, confirmPassword):
     elif collection.find_one({"username":username.lower()})!=None:
         return "That account already exists."
     collection.insert_one({"username":username.lower(), "password":password})
-    
-    
 
-
-
-
+def fetchRandomListing():
+    client = pymongo.MongoClient(databaseURL)
+    db = client.handlr_database
+    collection = db["listings"]
+    listings=[]
+    for listing in collection.find():
+        listings.append(listing)
+    listing = random.choice(listings)
+    return listing
 
 @webapp.route("/", methods=['GET', 'POST'])
 def login():
@@ -59,12 +63,14 @@ def register():
         error = newUsr(username, password, confirmPassword)
         if error==None:
             return redirect(url_for("login"))
-    return render_template('register.html', error=error)
+        flash(error)
+    return render_template('register.html')
 
 
 @webapp.route("/home")
 def index():
-    return render_template("index.html")
+    listing = fetchRandomListing()
+    return render_template("index.html", title=listing["title"], account=listing["account"].capitalize(), imageURL=listing["imageURL"], description=listing["description"], price=listing["price"])
 
 @webapp.route("/listings")
 def listings():
