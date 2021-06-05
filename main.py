@@ -5,6 +5,7 @@ import os, pymongo
 
 load_dotenv()
 databaseURL = os.getenv("databaseURL")
+flaskKey = os.getenv("flaskKey")
 
 
 webapp = Flask(__name__)
@@ -13,7 +14,7 @@ def verifyUsr(username, password):
     client = pymongo.MongoClient(databaseURL)
     db = client.handlr_database
     collection = db["accounts"]
-    result = collection.find_one({"username": username, "password":password})
+    result = collection.find_one({"username": username.lower(), "password":password})
     if result is None:
         return False
     return True
@@ -71,7 +72,6 @@ def listings():
 
 @webapp.route("/account")
 def account():
-    flash("hello")
     return render_template("account.html")
 
 @webapp.route("/secret/")
@@ -83,4 +83,5 @@ def secretName(name):
     return f"Congratulations, {name}, you have found the secret hidden webpage that nobody knows about."
 
 if __name__=="__main__":
+    webapp.secret_key = flaskKey
     webapp.run(port=4200, debug=True)
