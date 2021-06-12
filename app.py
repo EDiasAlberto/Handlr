@@ -1,55 +1,31 @@
 from flask import Flask
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
 from dotenv import load_dotenv
 import os, pymongo, random
+import verifyFuncs as verification
+import listingFuncs 
+
+loggedIn = False
 
 load_dotenv()
-databaseURL = os.getenv("databaseURL")
 flaskKey = os.getenv("flaskKey")
-
 
 webapp = Flask(__name__)
 
-def verifyUsr(username, password):
-    client = pymongo.MongoClient(databaseURL)
-    db = client.handlr_database
-    collection = db["accounts"]
-    result = collection.find_one({"username": username.lower(), "password":password})
-    if result is None:
-        return False
-    return True
-
-def newUsr(username, password, confirmPassword):
-    client = pymongo.MongoClient(databaseURL)
-    db = client.handlr_database
-    collection = db["accounts"]
-    if password!=confirmPassword:
-        return "The passwords do not match."
-    elif collection.find_one({"username":username.lower()})!=None:
-        return "That account already exists."
-    collection.insert_one({"username":username.lower(), "password":password})
-
-def fetchRandomListing():
-    client = pymongo.MongoClient(databaseURL)
-    db = client.handlr_database
-    collection = db["listings"]
-    listings=[]
-    for listing in collection.find():
-        listings.append(listing)
-    listing = random.choice(listings)
-    return listing
-
 @webapp.route("/", methods=['GET', 'POST'])
 def login():
+    global loggedIn
     error = None
     if request.method == 'POST':
         username = request.form["username"]
         password = request.form["password"]
         
-        valid = verifyUsr(username, password)
+        valid = verification.verifyUsr(username, password)
         if not valid:
             error = 'Invalid Credentials. Please try again.'
         else:
+            session["username"]=username
+            session["password"]=password
             return redirect(url_for("index"))
     return render_template('login.html', error=error)
 
@@ -60,7 +36,7 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         confirmPassword = request.form["confirmPassword"]
-        error = newUsr(username, password, confirmPassword)
+        error = verification.newUsr(username, password, confirmPassword)
         if error==None:
             return redirect(url_for("login"))
         flash(error)
@@ -69,8 +45,19 @@ def register():
 
 @webapp.route("/home")
 def index():
-    listing = fetchRandomListing()
-    return render_template("index.html", title=listing["title"], account=listing["account"].capitalize(), imageURL=listing["imageURL"], description=listing["description"], price=listing["price"])
+    listingsHTML =""
+    if "username" in session:
+        print(session["username"])
+        randomListings = listingFuncs.fetchRandomisedListings()
+        for i in range(len(randomListings)):
+            if i<5:
+                listingsHTML+=listingFuncs.generateListingPreviews(randomListings[i])
+            else:
+                break
+        usrListingsHTML = listingFuncs.generateUsrListings(session["username"])
+        return render_template("index.html", publicListings=listingsHTML, usrListings=usrListingsHTML)
+    else:
+        return redirect(url_for("login"))
 
 @webapp.route("/listings")
 def listings():
