@@ -47,7 +47,6 @@ def register():
 def index():
     listingsHTML =""
     if "username" in session:
-        print(session["username"])
         randomListings = listingFuncs.fetchRandomisedListings()
         for i in range(len(randomListings)):
             if i<5:

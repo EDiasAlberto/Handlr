@@ -39,10 +39,10 @@ def generateListingPreviews(listing):
     listingHTML = f"""
     <div class='listingPreviewRow'>
         <img src={listing["imageURL"]} alt='Product Image' class='listingImgPreview'>
-        <div class='listingPreviewText'>
-            <h3>{listing["title"]}</h2>
-            <h4>£{listing["price"]}</h3>
-            <h4>{listing["account"].capitalize()}</h4>
+        <div>
+            <h3 style='vertical-align:top;'>{listing["title"]}</h2>
+            <h3 style='vertical-align:top;'>£{listing["price"]}</h3>
+            <h4 style='vertical-align:top;'>{listing["account"].capitalize()}</h4>
         </div>
     </div>
     """

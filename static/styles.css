@@ -92,7 +92,8 @@ div.menuBar{
     overflow: hidden;
     background-color: #dddddd;
     border-radius:10px;
-    height:10%;
+    min-height:5%;
+    max-height:8%;
 }
 
 div.menuBarLogo{
@@ -103,10 +104,6 @@ div.menuBarLogo{
     border-radius:10px;
     float:right;
 }
-
-
-
-
 
 div.title{
     background-color: #dddddd;
@@ -168,7 +165,7 @@ div.title{
     float:left;
     margin: 0 15px 0 0;
     max-width:200px;
-    max-height:90%;
+    max-height:95%;
     min-width:150px;
     border-radius:10px;
     padding: 3px 3px 3px 3px;
@@ -181,6 +178,7 @@ div.title{
     border:0.01px solid black;
     height:15%;
     margin-bottom:5px;
+    
 }
 
 .listingPreviewText {
@@ -189,7 +187,8 @@ div.title{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height:100%;
+    text-align:left;
+    vertical-align: top;
 
 
 }
