@@ -35,6 +35,19 @@ li a {
     
 }
 
+.logoutButton{
+    position:relative;
+    float:right;
+    color: black; 
+    padding: 14px 16px;
+    text-align: center; 
+    font-size: larger; 
+    font-weight:bolder; 
+    text-decoration: none; 
+    height:100%; 
+    font-family: 'comic sans ms';
+}
+
 .active {
     background-color:#fc5185;
     height:100%;
@@ -97,12 +110,14 @@ div.menuBar{
 }
 
 div.menuBarLogo{
+    position:relative;
     min-width:fit-content;
     max-width:20%;
     height:100%;
-    border: 2px solid #fc5185;
+    vertical-align: middle;
+    text-align: middle;
     border-radius:10px;
-    float:right;
+    float:left;
 }
 
 div.title{
@@ -165,10 +180,10 @@ div.title{
     float:left;
     margin: 0 15px 0 0;
     max-width:200px;
-    max-height:95%;
+    max-height:100%;
     min-width:150px;
     border-radius:10px;
-    padding: 3px 3px 3px 3px;
+    padding: 0px 3px 0px 3px;
 }
 
 .listingPreviewRow {

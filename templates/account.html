@@ -8,14 +8,16 @@
 
 <body>
     <div class="menuBar">
+        <div class="menuBarLogo">
+            <img src="{{ url_for('static', filename='nuggets.jpeg')}}" alt="logo placeholder" style="max-width:200px;max-height:52px;">
+        </div>
         <ul>
             <li><a href="/home">Handlr</a></li>
             <li><a href="/listings">Listings</a></li>
-            <li><a class = "active" href="/account">Account</a></li>
+            <li><a class="active" href="/account">Account</a></li>
         </ul>
-        <div class="menuBarLogo">
-            <img src="{{ url_for('static', filename='nuggets.jpeg')}}" alt="logo placeholder" style="max-width:200px;max-height:42px;">
-        </div>
+        <a class="logoutButton" href="/logout">Log out</a>
+        
     </div>
     <div class="PageMain">
 

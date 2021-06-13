@@ -48,11 +48,8 @@ def index():
     listingsHTML =""
     if "username" in session:
         randomListings = listingFuncs.fetchRandomisedListings()
-        for i in range(len(randomListings)):
-            if i<5:
-                listingsHTML+=listingFuncs.generateListingPreviews(randomListings[i])
-            else:
-                break
+        for i in range(5):
+            listingsHTML+=listingFuncs.generateListingPreviews(randomListings[i])
         usrListingsHTML = listingFuncs.generateUsrListings(session["username"])
         return render_template("index.html", publicListings=listingsHTML, usrListings=usrListingsHTML)
     else:
@@ -60,11 +57,22 @@ def index():
 
 @webapp.route("/listings")
 def listings():
-    return render_template("listings.html")
+    if "username" in session:
+        return render_template("listings.html")
+    else:
+        return redirect(url_for("login"))
 
 @webapp.route("/account")
 def account():
-    return render_template("account.html")
+    if "username" in session:
+        return render_template("account.html")
+    else:
+        return redirect(url_for("login"))
+
+@webapp.route("/logout")
+def logout():
+    session.pop("username")
+    return redirect(url_for("login"))
 
 @webapp.route("/secret/")
 def secretPage():
