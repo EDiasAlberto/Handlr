@@ -62,6 +62,14 @@ def listings():
     else:
         return redirect(url_for("login"))
 
+@webapp.route("/listing/<listingName>")
+def specificListing(listingName):
+    listing = listingFuncs.fetchSpecificListing(listingName)
+    print(listing["price"])
+    return f"<p>{listing['price']}<br>{listingName}</p>"
+
+
+
 @webapp.route("/account")
 def account():
     if "username" in session:
