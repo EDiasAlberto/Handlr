@@ -7,15 +7,14 @@
 </head>
 <body style="height:100%; overflow:hidden">
     <div class="menuBar">
-        <div class="menuBarLogo">
-            <img src="{{ url_for('static', filename='nuggets.jpeg')}}" alt="logo placeholder" style="max-width:200px;max-height:52px;">
-        </div>
         <ul>
+            <li><img class="menuBarLogo" src="{{ url_for('static', filename='nuggets.jpeg')}}" alt="logo placeholder" style="max-width:200px;max-height:52px;"></li>
             <li><a class="active" href="/home">Handlr</a></li>
             <li><a href="/listings">Listings</a></li>
             <li><a href="/account">Account</a></li>
+            <a class="logoutButton" href="/logout">Log out</a>
         </ul>
-        <a class="logoutButton" href="/logout">Log out</a>
+        
         
     </div>
     <br>  

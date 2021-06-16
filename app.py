@@ -64,9 +64,11 @@ def listings():
 
 @webapp.route("/listing/<listingName>")
 def specificListing(listingName):
-    listing = listingFuncs.fetchSpecificListing(listingName)
-    print(listing["price"])
-    return f"<p>{listing['price']}<br>{listingName}</p>"
+    if "username" in session:
+        listing = listingFuncs.fetchSpecificListing(listingName)
+        return f"<p>{listing['price']}<br>{listingName}</p>"
+    return redirect(url_for("login"))
+
 
 
 
@@ -74,8 +76,7 @@ def specificListing(listingName):
 def account():
     if "username" in session:
         return render_template("account.html")
-    else:
-        return redirect(url_for("login"))
+    return redirect(url_for("login"))
 
 @webapp.route("/logout")
 def logout():
