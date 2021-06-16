@@ -1,28 +1,26 @@
 body {
     background-color: #ffffff;
     min-height:100vh;
+    margin: 0;
+
 }
 
-ul {
+ul.menuBar {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    width:100%;
-    height:100%;
-    float: left;
+    background-color:#dddddd;
+    border-radius:10px;
 
 }
 
-li {
-    height:100%;
+ul.menuBar li {
+    overflow:hidden;
     float: left;
-  
-    
 }
 
-li a {
-    position: relative;
+ul.menuBar li a {
     display: block;
     color: black;
     text-align: center;
@@ -30,13 +28,11 @@ li a {
     text-decoration: none;
     font-size: larger;
     font-weight:bolder;
-    height:100%;
     font-family: "comic sans ms";
     
 }
 
 .logoutButton{
-    position:relative;
     float:right;
     display:block;
     color: black; 
@@ -45,23 +41,19 @@ li a {
     font-size: larger; 
     font-weight:bolder; 
     text-decoration: none;
-    height:100%; 
     font-family: 'comic sans ms';
 }
 
 .logoutButton:hover {
     background-color:#c79cc8;
-    height:100%;
 }
 
-.active {
+ul.menuBar li a.active {
     background-color:#fc5185;
-    height:100%;
 }
 
-li a:hover:not(.active){
+ul.menuBar li a:hover:not(.active){
     background-color:#c79cc8;
-    height:100%;
 }
 
 div.homePageMain{
@@ -104,26 +96,18 @@ div.loginPageMain{
     padding:10px;
 }
 
-div.menuBar{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #dddddd;
-    border-radius:10px;
-    min-height:5%;
-    max-height:8%;
-}
 
-div.menuBarLogo{
-    position:relative;
-    display:block;
-    min-width:fit-content;
-    max-width:20%;
-    height:100%;
-    text-align: middle;
-    border-radius:10px;
-    float:left;
+
+@media screen and (max-width: 600px) {
+    .logoutButton,
+    ul.menuBar li {float: none;}
+  }
+
+.menuBarLogo{
+    margin:auto;
+    object-fit: cover;
+    height:55px;
+    width: 75px;    
 }
 
 div.title{

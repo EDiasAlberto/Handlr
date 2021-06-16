@@ -6,17 +6,15 @@
     <title>Handlr</title>
 </head>
 <body style="height:100%; overflow:hidden">
-    <div class="menuBar">
-        <ul>
-            <li><img class="menuBarLogo" src="{{ url_for('static', filename='nuggets.jpeg')}}" alt="logo placeholder" style="max-width:200px;max-height:52px;"></li>
-            <li><a class="active" href="/home">Handlr</a></li>
-            <li><a href="/listings">Listings</a></li>
-            <li><a href="/account">Account</a></li>
-            <a class="logoutButton" href="/logout">Log out</a>
-        </ul>
-        
-        
-    </div>
+    <ul class="menuBar">
+        <li><a style="padding:0;" href="/home"><img class="menuBarLogo" src="{{ url_for('static', filename='HandlrLogo.png')}}" alt="logo placeholder"></a></li>
+        <li><a class="active" href="/home">Handlr</a></li>
+        <li><a href="/listings">Listings</a></li>
+        <li><a href="/account">Account</a></li>
+        <a class="logoutButton" href="/logout">Log out</a>
+    </ul>
+    
+
     <br>  
     <div class="homePageMain">
         <h1>Public Listings:</h1>
