@@ -7,19 +7,13 @@
 </head>
 
 <body>
-    <div class="menuBar">
-        <div class="menuBarLogo">
-            <img src="{{ url_for('static', filename='HandlrLogo.png')}}" alt="logo placeholder" style="max-width:200px;max-height:52px;">
-        </div>
-        <ul>
-            <li><a href="/home">Handlr</a></li>
-            <li><a class="active" href="/listings">Listings</a></li>
-            <li><a href="/account">Account</a></li>
-        </ul>
+    <ul class="menuBar">
+        <li><a class="active" style="padding:0;" href="/home"><img class="menuBarLogo" src="{{ url_for('static', filename='HandlrLogo.png')}}" alt="logo placeholder"></a></li>
+        <li><a href="/home">Handlr</a></li>
+        <li><a class="active" href="/listings">Listings</a></li>
+        <li><a href="/account">Account</a></li>
         <a class="logoutButton" href="/logout">Log out</a>
-        
-    </div>
-    <br>
+    </ul>
     <div class="PageMain">
 
     </div>
