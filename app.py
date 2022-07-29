@@ -2,13 +2,17 @@ from flask import Flask
 from flask import render_template, request, redirect, url_for, flash, session
 from dotenv import load_dotenv
 import os, pymongo, random
-import verifyFuncs as verification
+import verifyFuncs 
 import listingFuncs 
 
 loggedIn = False
 
 load_dotenv()
 flaskKey = os.getenv("flaskKey")
+databaseURL = os.getenv("databaseURL")
+
+listingFuncs = listingFuncs.ListingFuncs(databaseURL)
+verification = verifyFuncs.VerifyFuncs(databaseURL)
 
 webapp = Flask(__name__)
 
@@ -66,7 +70,8 @@ def listings():
 def specificListing(listingName):
     if "username" in session:
         listing = listingFuncs.fetchSpecificListing(listingName)
-        return f"<p>{listing['price']}<br>{listingName}</p>"
+        returnString = f"<p>{listing['price']}<br>{listingName}</p>"
+        return returnString
     return redirect(url_for("login"))
 
 
