@@ -6,7 +6,7 @@
     <title>Handlr</title>
 </head>
 
-<body>
+<body style="height:100%; overflow:scroll;">
     <ul class="menuBar">
         <li><a class="active" style="padding:0;" href="/home"><img class="menuBarLogo" src="{{ url_for('static', filename='HandlrLogo.png')}}" alt="logo placeholder"></a></li>
         <li><a href="/home">Handlr</a></li>
@@ -14,7 +14,12 @@
         <li><a href="/account">Account</a></li>
         <a class="logoutButton" href="/logout">Log out</a>
     </ul>
-    <div class="PageMain">
+    <div style="padding: 15px 0px">
+        <div class="homePageListings" style="width:100%;">
+            <h1>Your Listings:</h1>
+            <br>
+            {{usrListings | safe}}
+        </div>
 
     </div>
 

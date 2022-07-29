@@ -62,16 +62,19 @@ def index():
 @webapp.route("/listings")
 def listings():
     if "username" in session:
-        return render_template("listings.html")
-    else:
-        return redirect(url_for("login"))
+        listingsHTML = listingFuncs.generateUsrListings(session["username"])
+        return render_template("listings.html", usrListings = listingsHTML)
+
+    return redirect(url_for("login"))
 
 @webapp.route("/listing/<listingName>")
 def specificListing(listingName):
     if "username" in session:
         listing = listingFuncs.fetchSpecificListing(listingName)
-        returnString = f"<p>{listing['price']}<br>{listingName}</p>"
-        return returnString
+        displayHTML = f"<p>{listing['price']}<br>{listingName}</p>"
+        if listing["account"]==session["username"].lower():
+            displayHTML+="<br><p>You own this!</p>"
+        return displayHTML
     return redirect(url_for("login"))
 
 
