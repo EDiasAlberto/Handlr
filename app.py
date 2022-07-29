@@ -77,7 +77,9 @@ def specificListing(listingName):
         return displayHTML
     return redirect(url_for("login"))
 
-
+@webapp.route("/search")
+def search():
+    return render_template("search.html")
 
 
 @webapp.route("/account")
@@ -98,6 +100,10 @@ def secretPage():
 @webapp.route("/secret/<name>/")
 def secretName(name):
     return f"Congratulations, {name}, you have found the secret hidden webpage that nobody knows about."
+
+@webapp.route("/test")
+def test():
+    return render_template("testPage.html")
 
 if __name__=="__main__":
     webapp.secret_key = flaskKey
