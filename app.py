@@ -55,7 +55,7 @@ def index():
         for i in range(5):
             listingsHTML+=listingFuncs.generateListingPreviews(randomListings[i])
         usrListingsHTML = listingFuncs.generateUsrListings(session["username"])
-        return render_template("index.html", publicListings=listingsHTML, usrListings=usrListingsHTML)
+        return render_template("index.html", publicListings=listingsHTML, usrListings=usrListingsHTML, classHome="active")
     else:
         return redirect(url_for("login"))
 
@@ -63,7 +63,7 @@ def index():
 def listings():
     if "username" in session:
         listingsHTML = listingFuncs.generateUsrListings(session["username"])
-        return render_template("listings.html", usrListings = listingsHTML)
+        return render_template("listings.html", usrListings = listingsHTML, classListings="active")
 
     return redirect(url_for("login"))
 
@@ -79,13 +79,13 @@ def specificListing(listingName):
 
 @webapp.route("/search")
 def search():
-    return render_template("search.html")
+    return render_template("search.html", classSearch="active")
 
 
 @webapp.route("/account")
 def account():
     if "username" in session:
-        return render_template("account.html")
+        return render_template("account.html", classAccount="active")
     return redirect(url_for("login"))
 
 @webapp.route("/logout")
@@ -104,6 +104,10 @@ def secretName(name):
 @webapp.route("/test")
 def test():
     return render_template("testPage.html")
+
+@webapp.route("/newmenu")
+def newMenu():
+    return render_template("menubar.html", classSearch="active")
 
 if __name__=="__main__":
     webapp.secret_key = flaskKey

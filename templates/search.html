@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
-    <title>Handlr</title>
-</head>
+{% extends "menubar.html" %}
+{% block content %}
 
-<body style="height:100%; overflow:scroll;">
-    <ul class="menuBar">
-        <li><a class="active" style="padding:0;" href="/home"><img class="menuBarLogo" src="{{ url_for('static', filename='HandlrLogo.png')}}" alt="logo placeholder"></a></li>
-        <li><a href="/home">Handlr</a></li>
-        <li><a href="/listings">Listings</a></li>
-        <li><a class="active" href="/search">Search</a></li>
-        <li><a href="/account">Account</a></li>
-        <a class="logoutButton" href="/logout">Log out</a>
-    </ul>
-</body>
-</html>
+    <div id="searchBar">
+        
+    </div>
+
+{% endblock content %}

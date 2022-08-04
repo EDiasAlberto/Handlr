@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html style="height:100%; overflow:hidden">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+        <title>Handlr</title>
+    </head>
+
+    <body>
+        <ul class="menuBar">
+            <li><a class="active" style="padding:0;" href="/home"><img class="menuBarLogo" src="{{ url_for('static', filename='HandlrLogo.png')}}" alt="logo placeholder"></a></li>
+            <li><a class="{{classHome}}" href="/home">Handlr</a></li>
+            <li><a class="{{classListings}}" href="/listings">Listings</a></li>
+            <li><a class="{{classSearch}}" href="/search">Search</a></li>
+            <li><a class="{{classAccount}}" href="/account">Account</a></li>
+            <a class="logoutButton" href="/logout">Log out</a>
+        </ul>
+        {% block content %} {% endblock content %}
+    </body>
+    
+</html>
