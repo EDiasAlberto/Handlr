@@ -3,9 +3,9 @@ from dotenv import load_dotenv
 
 class VerifyFuncs: 
     def __init__(self, databaseURL):
-        self.client = pymongo.MongoClient(databaseURL)
-        self.db = self.client.handlr_database
-        self.collection = self.db["accounts"]
+        client = pymongo.MongoClient(databaseURL)
+        db = client.handlr_database
+        self.collection = db["accounts"]
 
 
     def verifyUsr(self, username, password):

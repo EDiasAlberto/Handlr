@@ -15,5 +15,10 @@
         <li><a href="/account">Account</a></li>
         <a class="logoutButton" href="/logout">Log out</a>
     </ul>
+
+    <h1>{{ listing["title"] }}</h1>
+    <img src="{{ listing['imageURL'] }}" alt='Product Image' class='listingImgPreview' >
+    <br/>
+    <h3>By {{ listing["account"].capitalize() }}</h3>
         
     </div>

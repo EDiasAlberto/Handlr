@@ -1,37 +1,38 @@
 from flask import Flask
 from flask import render_template, request, redirect, url_for, flash, session
 from dotenv import load_dotenv
+from werkzeug.utils import secure_filename
 import os, pymongo, random
-import verifyFuncs 
-import listingFuncs 
-
-loggedIn = False
+import verifyFuncs, listingFuncs, imgFuncs, forms
 
 load_dotenv()
 flaskKey = os.getenv("flaskKey")
 databaseURL = os.getenv("databaseURL")
+imgSiteURL = os.getenv("imgSiteURL")
 
 listingFuncs = listingFuncs.ListingFuncs(databaseURL)
 verification = verifyFuncs.VerifyFuncs(databaseURL)
+imgFuncs = imgFuncs.ImgFuncs(imgSiteURL)
 
 webapp = Flask(__name__)
+webapp.config['UPLOAD_FOLDER'] = "uploads/"
 
 @webapp.route("/", methods=['GET', 'POST'])
 def login():
-    global loggedIn
     error = None
-    if request.method == 'POST':
-        username = request.form["username"]
-        password = request.form["password"]
-        
+    form = forms.LoginForm()
+    if request.method=="POST":
+        print("Submitted")
+        username = form.username.data
+        password = form.password.data
+        print(username, password)
         valid = verification.verifyUsr(username, password)
         if not valid:
             error = 'Invalid Credentials. Please try again.'
         else:
             session["username"]=username
-            session["password"]=password
             return redirect(url_for("index"))
-    return render_template('login.html', error=error)
+    return render_template('login.html', error=error, form=form)
 
 @webapp.route("/register", methods=['GET', 'POST'])
 def register():
@@ -74,8 +75,24 @@ def specificListing(listingName):
         displayHTML = f"<p>{listing['price']}<br>{listingName}</p>"
         if listing["account"]==session["username"].lower():
             displayHTML+="<br><p>You own this!</p>"
-        return displayHTML
+        return render_template("specificListing.html",listing = listing)
     return redirect(url_for("login"))
+
+@webapp.route("/createListing", methods=["GET", "POST"])
+def createListing():
+    if request.method=="POST":
+        file = request.files["image"]
+        imgURL = imgFuncs.imgUpload(file, webapp.config['UPLOAD_FOLDER'], session["username"].lower())
+        title = request.form["title"]
+        desc = request.form["description"]
+        quality = request.form.get("quality")
+        price = float(request.form["price"])
+        listingURL = listingFuncs.createListing(session["username"].lower(), imgURL, title, desc, quality, price)
+        
+        return render_template("createListing.html")
+
+    else:
+        return render_template("createListing.html")
 
 @webapp.route("/search")
 def search():

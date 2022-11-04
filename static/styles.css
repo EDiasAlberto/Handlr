@@ -11,7 +11,7 @@ ul.menuBar {
     padding: 0;
     overflow: hidden;
     background-color:#dddddd;
-    border-radius:10px;
+    border-radius:0px;
     height:fit-content;
 
 }
@@ -25,11 +25,11 @@ ul.menuBar li a {
     display: block;
     color: black;
     text-align: center;
-    padding: 15px 16px;
+    padding: 19px;
     text-decoration: none;
     font-size: larger;
     font-weight:bolder;
-    font-family: "comic sans ms";
+    font-family: "Helvetica Neue Light";
     
 }
 
@@ -42,7 +42,7 @@ ul.menuBar li a {
     font-size: larger; 
     font-weight:bolder; 
     text-decoration: none;
-    font-family: 'comic sans ms';
+    font-family: 'helvetica neue light';
 }
 
 .logoutButton:hover {
@@ -51,6 +51,7 @@ ul.menuBar li a {
 
 ul.menuBar li a.active {
     background-color:#fc5185;
+    color: #58efec;
 }
 
 ul.menuBar li a:hover:not(.active){
@@ -182,19 +183,19 @@ div.title{
 
 .listingImgPreview {
     float:left;
-    margin: 0 15px 0 0;
-    max-width:200px;
-    max-height:100%;
-    min-width:150px;
+    margin: 0 0px 0 0;
+    width:28%;
+    height:100%;
     border-radius:10px;
     padding: 0px 3px 0px 3px;
+    display:block;
 }
 
 .listingPreviewRow {
     
     flex: 1;
-    border-radius: 10px;
-    border:0.01px solid black;
+    border-radius: 15px;
+    border:0.1px solid black;
     height:15%;
     margin-bottom:5px;
     

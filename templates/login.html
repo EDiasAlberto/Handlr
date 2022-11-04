@@ -16,24 +16,40 @@
         <p>Please enter your login details</p>
         <br><br>
         <div id="formContainer">
-            <form id="formC" action="" method="post">
+            <form action="" method="POST">
                 
-                <div class="rows">
-                    <div class="column">
-                        <label class="theLabels" for="username">Username: </label>
-                        <input class="theInputs" type="text" id="username" name="username" value="{{request.form.username }}" required>
-                    </div>
+                <div>
+                    {{ form.username.label() }}
+
+                    {% if form.username.errors %} 
+                        {{ form.username() }}
+                        <div>
+                        {% for error in form.username.errors %}
+                            <span> {{ error }} </span>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username() }}
+                    {% endif %}
                 </div>
                 <br>
-                <div class="rows">
-                    <div class="column">
-                        <label class="theLabels"  for="password">Password: </label>
-                        <input class="theInputs" type="password" id="password" name="password" value="{{request.form.password }}" required>
-                    </div>
+                <div>
+                    {{ form.password.label() }}
+
+                    {% if form.password.errors %} 
+                        {{ form.password() }}
+                        <div>
+                        {% for error in form.password.errors %}
+                            <span> {{ error }} </span>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password() }}
+                    {% endif %}
                 </div>
                 <br>
                 
-                <input type="submit" value="Login">
+                {{form.submit()}}
             </form>
             <br>
             <a href="/register" style="text-decoration: none;">Don't have an account?</a>
