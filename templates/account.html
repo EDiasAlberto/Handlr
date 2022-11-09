@@ -1,4 +1,15 @@
 {% extends "menubar.html" %}
 {% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <label for="oldPassword">Current Password: </label>
+    <input type="password" id="oldPassword" name="oldPassword" value="{{request.form.oldPassword }}" required>
+    <label for="newPassword">New Password: </label>
+    <input type="password" id="newPassword" name="newPassword" value="{{request.form.newPassword }}" required>
+    <label for="confirmPassword">Confirm Password: </label>
+    <input type="password" id="confirmPassword" name="confirmPassword" value="{{request.form.confirmPassword }}" required>
+    <input type="submit" value="Submit">
 
+    {% if error %}
+        <script type="text/javascript">alert("Invalid username and/or password")</script>
+    {% endif %}
 {% endblock content %}

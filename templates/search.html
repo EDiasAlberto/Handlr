@@ -2,7 +2,13 @@
 {% block content %}
 
     <div id="searchBar">
-        
+        <form method="POST" enctype="multipart/form-data">
+            <label for="Search">Search: </label>
+            <input type="text" id="query" name="query" value="{{request.form.query }}" required>
+            <input type="submit" value="Submit">
+        </form>
     </div>
+
+    {{searchResults | safe}}
 
 {% endblock content %}

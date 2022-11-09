@@ -17,7 +17,6 @@ class ListingFuncs:
             if randomListing not in listings:
                 listings.append(randomListing)
         random.shuffle(listings)
-        print(listings)
         return listings
         
     #fetches all listings for a specific user and generates HTML previews
@@ -33,6 +32,12 @@ class ListingFuncs:
         listing = self.collection.find_one({"title":title})
         return listing
 
+    #Fetches all listings that have titles matching a search query
+    def fetchSimilarListing(self, query):
+        listing = list(self.collection.find({"title" : {"$regex" : query, "$options" : "i"}}))[0:10]
+        return listing
+
+    #Produces a listing based on inputted information and uploads to database
     def createListing(self, usr, imgURL, title, desc, quality, price):
         listing = {
             "account" : usr,

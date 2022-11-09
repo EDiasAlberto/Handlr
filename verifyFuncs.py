@@ -14,6 +14,12 @@ class VerifyFuncs:
             return False
         return True
 
+    def updatePass(self, username, oldPassword, newPassword, confirmPassword):
+        result = self.collection.find_one({"username": username.lower(), "password":oldPassword})
+        if result is None or newPassword!=confirmPassword:
+            return False
+        self.collection.update_one({"username":username.lower()}, {"$set":{"password":newPassword}})
+
     def newUsr(username, password, confirmPassword):
         if password!=confirmPassword:
             return "The passwords do not match."

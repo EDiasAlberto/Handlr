@@ -72,7 +72,7 @@ def listings():
 def specificListing(listingName):
     if "username" in session:
         listing = listingFuncs.fetchSpecificListing(listingName)
-        displayHTML = f"<p>{listing['price']}<br>{listingName}</p>"
+        displayHTML = f"<p>{listingName}<br>{listing['price']}</p>"
         if listing["account"]==session["username"].lower():
             displayHTML+="<br><p>You own this!</p>"
         return render_template("specificListing.html",listing = listing)
@@ -94,14 +94,24 @@ def createListing():
     else:
         return render_template("createListing.html")
 
-@webapp.route("/search")
+@webapp.route("/search", methods=["GET","POST"])
 def search():
+    if request.method=="POST":
+        listingsHTML=""
+        searchResults = listingFuncs.fetchSimilarListing(request.form["query"])
+        for listing in searchResults:
+            listingsHTML+=listingFuncs.generateListingPreviews(listing)
+        return render_template("search.html", searchResults = listingsHTML, classSearch="active")
     return render_template("search.html", classSearch="active")
 
 
-@webapp.route("/account")
+@webapp.route("/account", methods=["GET", "POST"])
 def account():
     if "username" in session:
+        if request.method=="POST":
+            isValidChange = verification.updatePass(session["username"].lower(), request.form["oldPassword"], request.form["newPassword"], request.form["confirmPassword"])
+            if not isValidChange:
+                return render_template("account.html", classAccount="active", error="Error! Invalid username and/or password.")
         return render_template("account.html", classAccount="active")
     return redirect(url_for("login"))
 

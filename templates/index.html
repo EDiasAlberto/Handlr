@@ -10,6 +10,10 @@
     </div>
     <div class="homePageListings">
         <h1>Your Listings:</h1>
+        <form method="GET" action="/createListing">
+            <input type="submit" value="Create Listing"></input>
+        </form>
+        
         <br>
         {{usrListings | safe}}
     </div>
