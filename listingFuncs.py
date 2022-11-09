@@ -1,21 +1,27 @@
 import pymongo, os, random, datetime
 
 #Collection of functions used to manage listings and listing information
-
 class ListingFuncs:
 
+    #Constructor method for the class which involves intialising the connection to the database
     def __init__(self, databaseURL):
+        #Creates a client to represent the connection to the datbase
         self.client = pymongo.MongoClient(databaseURL)
         self.db = self.client.handlr_database
+        #Navigates client to the collection "Listings" on the database
         self.collection = self.db["listings"]
 
     #Fetches a random set of listings
     def fetchRandomisedListings(self, limit=5):
         listings = []
+        #repeatedly picks on random listing until the list contains the desired number of listings
         while len(listings)<limit:
             randomListing = list(self.collection.aggregate([{"$sample": {"size":1}}]))[0]
+            #the "sample" pipeline on mongodb has a chance of repeating items in a random sample
+            #Therefore, this selects one random item repeatedly until there are the needed amount
             if randomListing not in listings:
                 listings.append(randomListing)
+        #This randomly orders the list of listings so the website has a random order
         random.shuffle(listings)
         return listings
         
