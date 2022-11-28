@@ -24,6 +24,9 @@ class ListingFuncs:
         #This randomly orders the list of listings so the website has a random order
         random.shuffle(listings)
         return listings
+
+    def addAField(self, field, value):
+        self.collection.update_many({field: {"$exists": False}}, {"$set": {field : value}})
         
     #fetches all listings for a specific user and generates HTML previews
     def generateUsrListings(self, username):
@@ -34,8 +37,8 @@ class ListingFuncs:
         return usrListingsHTML
 
     #fetches specfiic listing from database from its title
-    def fetchSpecificListing(self, title):
-        listing = self.collection.find_one({"title":title})
+    def fetchSpecificListing(self, title, author):
+        listing = self.collection.find_one({"title":title, "account":author.lower()})
         return listing
 
     #Fetches all listings that have titles matching a search query
@@ -51,19 +54,27 @@ class ListingFuncs:
             "imageURL" : imgURL,
             "description" : desc,
             "price" : price,
+            "quality" : quality,
             "dateCreated" : datetime.datetime.now()
         }
-        self.collection.insert_one(listing)
+        print((title, usr))
+        if self.fetchSpecificListing(title, usr) is None:
+            print("Identical listing not found)")
+            self.collection.insert_one(listing)
+            return True
+        return False
 
     #Produces html formatted rows of item previews
     def generateListingPreviews(self, listing):
+        if int(listing["price"])==listing["price"]:
+            listing["price"] = str(listing["price"]) + "0"
         listingHTML = f"""
         <div class='listingPreviewRow'>
             <div>
                 <img src={listing["imageURL"]} alt='Product Image' class='listingImgPreview'>
             </div>
             <div>
-                <a class='listingPreviewLinks' href='/listing/{listing["title"]}'>{listing["title"]}</a>
+                <a class='listingPreviewLinks' href='/listing/{listing["title"]}?account={listing["account"]}'>{listing["title"]}</a>
                 <h3 style='vertical-align:top;'>£{listing["price"]}</h3>
                 <h4 style='vertical-align:top;'>{listing["account"].capitalize()}</h4>
             </div>

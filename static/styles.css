@@ -29,7 +29,6 @@ ul.menuBar li a {
     text-decoration: none;
     font-size: larger;
     font-weight:bolder;
-    font-family: "Helvetica Neue Light";
     
 }
 
@@ -37,12 +36,11 @@ ul.menuBar li a {
     float:right;
     display:block;
     color: black; 
-    padding: 14px 16px;
+    padding: 19px 16px;
     text-align: center; 
     font-size: larger; 
     font-weight:bolder; 
     text-decoration: none;
-    font-family: 'helvetica neue light';
 }
 
 .logoutButton:hover {
@@ -121,8 +119,7 @@ div.loginPageMain{
 .menuBarLogo{
     margin:auto;
     object-fit: cover;
-    height:55px;
-    width: 75px;    
+    height: 67px;
 }
 
 div.title{
@@ -186,6 +183,7 @@ div.title{
     margin: 0 0px 0 0;
     width:28%;
     height:100%;
+    width: 150px;
     border-radius:10px;
     padding: 0px 3px 0px 3px;
     display:block;
@@ -220,4 +218,19 @@ div.title{
     font-weight:bolder;
     color: #000000;
 
+}
+
+.createListingForm {
+    background-color: #dddddd;
+    margin-top: 5%;
+}
+
+.createListingLabel{
+    margin: 10px calc(((100% - 1140px) / 2) + 864px) 2% 0;
+}
+
+.createListingEntry{
+    height: 20px;
+    width: 100px;
+    margin: 0px calc(((100% - 1140px) / 2) + 401px) 60px 50px;
 }

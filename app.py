@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for, flash, session
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 import os, pymongo, random
-import verifyFuncs, listingFuncs, imgFuncs, forms
+import verifyFuncs, listingFuncs, imgFuncs, questionFuncs, forms
 
 load_dotenv()
 flaskKey = os.getenv("flaskKey")
@@ -13,6 +13,7 @@ imgSiteURL = os.getenv("imgSiteURL")
 listingFuncs = listingFuncs.ListingFuncs(databaseURL)
 verification = verifyFuncs.VerifyFuncs(databaseURL)
 imgFuncs = imgFuncs.ImgFuncs(imgSiteURL)
+questionFuncs = questionFuncs.QuestionFuncs(databaseURL)
 
 webapp = Flask(__name__)
 webapp.config['UPLOAD_FOLDER'] = "uploads/"
@@ -22,10 +23,8 @@ def login():
     error = None
     form = forms.LoginForm()
     if request.method=="POST":
-        print("Submitted")
         username = form.username.data
         password = form.password.data
-        print(username, password)
         valid = verification.verifyUsr(username, password)
         if not valid:
             error = 'Invalid Credentials. Please try again.'
@@ -68,15 +67,23 @@ def listings():
 
     return redirect(url_for("login"))
 
-@webapp.route("/listing/<listingName>")
-def specificListing(listingName):
+@webapp.route("/listing/<listingTitle>")
+def specificListing(listingTitle):
     if "username" in session:
-        listing = listingFuncs.fetchSpecificListing(listingName)
-        displayHTML = f"<p>{listingName}<br>{listing['price']}</p>"
-        if listing["account"]==session["username"].lower():
-            displayHTML+="<br><p>You own this!</p>"
-        return render_template("specificListing.html",listing = listing)
+        listingOwner = request.args.get("account")
+        listing = listingFuncs.fetchSpecificListing(listingTitle, listingOwner)
+        questions = questionFuncs.fetchQuestions(listingTitle, listingOwner)
+        if int(listing["price"])==listing["price"]:
+            listing["price"] = str(listing["price"]) + "0"
+        return render_template("specificListing.html",listing = listing, questions=questions)
     return redirect(url_for("login"))
+
+@webapp.route("/purchase/<listingTitle>", methods=["POST"])
+def purchaseListing(listingTitle):
+    if "username" in session:
+        listingOwner = request.args.get("account")
+        listing = listingFuncs.fetchSpecificListing(listingTitle, listingOwner)
+        return f"<p>YOU HAVE PURCHASED ONE {listing['title']} at price £{listing['price']}!</p>"
 
 @webapp.route("/createListing", methods=["GET", "POST"])
 def createListing():
@@ -87,9 +94,13 @@ def createListing():
         desc = request.form["description"]
         quality = request.form.get("quality")
         price = float(request.form["price"])
-        listingURL = listingFuncs.createListing(session["username"].lower(), imgURL, title, desc, quality, price)
+        isValidListing = listingFuncs.createListing(session["username"].lower(), imgURL, title, desc, quality, price)
+        print(isValidListing)
+        if not isValidListing:
+            flash("Error! You already have a listing with this name")
+            return render_template("createListing.html")
         
-        return render_template("createListing.html")
+        return redirect(url_for("specificListing", listingTitle=title, account = session["username"]))
 
     else:
         return render_template("createListing.html")
@@ -98,7 +109,11 @@ def createListing():
 def search():
     if request.method=="POST":
         listingsHTML=""
+        SortingKeys = {"Relevance" : None, "Quality" : "quality", "Title" : "title", "Newest First" : "dateCreated", "Price (High to Low)" : "price", "Price (Low to High)" : "price"}
         searchResults = listingFuncs.fetchSimilarListing(request.form["query"])
+        sortValue = request.form.get("sort")
+        if SortingKeys[sortValue] is not None:
+            searchResults = sorted(searchResults, key= lambda x: x[SortingKeys[sortValue]])
         for listing in searchResults:
             listingsHTML+=listingFuncs.generateListingPreviews(listing)
         return render_template("search.html", searchResults = listingsHTML, classSearch="active")
@@ -110,9 +125,12 @@ def account():
     if "username" in session:
         if request.method=="POST":
             isValidChange = verification.updatePass(session["username"].lower(), request.form["oldPassword"], request.form["newPassword"], request.form["confirmPassword"])
+            print(isValidChange)
             if not isValidChange:
                 return render_template("account.html", classAccount="active", error="Error! Invalid username and/or password.")
-        return render_template("account.html", classAccount="active")
+            return render_template("account.html", classAccount="active", success="Successfully updated password.")
+        else:
+            return render_template("account.html")
     return redirect(url_for("login"))
 
 @webapp.route("/logout")
@@ -138,4 +156,4 @@ def newMenu():
 
 if __name__=="__main__":
     webapp.secret_key = flaskKey
-    webapp.run(port=4200, debug=True)
+    webapp.run(host="192.168.1.141", port=4200, debug=True)

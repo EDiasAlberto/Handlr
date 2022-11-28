@@ -5,6 +5,11 @@
         <form method="POST" enctype="multipart/form-data">
             <label for="Search">Search: </label>
             <input type="text" id="query" name="query" value="{{request.form.query }}" required>
+            <select name="sort">
+                {% for attr in ["Quality", "Title", "Newest First", "Price (High to Low)", "Price (Low to High)", "Relevance"] %}
+                    <option value="{{attr}}" SELECTED>{{attr}}</option>
+                {% endfor %}
+            </select>
             <input type="submit" value="Submit">
         </form>
     </div>

@@ -1,25 +1,59 @@
 {% extends "menubar.html" %}
 {% block content %}
 
-<form method="POST" enctype="multipart/form-data">
-    <input type="file" name="image" accept=".png">
-    <label for="title">Title: </label>
-    <input type="text" id="title" name="title" value="{{request.form.title }}" required>
-    <br>
-    <label for="description">Description: </label>
-    <input type="text" id="description" name="description" value="{{request.form.description }}" required>
-    <br>
-    <label for="quality">Quality: </label>
-    <select name="quality">
-        {% for quality in ["Used", "Like New", "Unboxed", "Sealed"] %}
-            <option value="{{quality}}" SELECTED>{{quality}}</option>
+<div style="padding: 15px 0px">
+  <div class="homePageListings" style="width:100%;">
+    
+    <h1>Create a Listing</h1>
+
+    <div style="width:100%; padding:20px 60px;">
+
+      <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Listing Image Upload</label>
+          <input class="form-control" type="file" name="image" id="formFile" accept=".png">
+        </div>
+        <hr>
+        <div class="mb-3">
+          <label for="title" class="form-label">Item Title</label>
+          <input name="title" value="{{request.form.title}}" type="text" class="form-control" id="title" placeholder="Please enter the title of the listing" required>
+        </div>
+        <div class="mb-3">
+          <label for="description">Description</label>
+          <textarea name="description" value="{{request.form.description}}"class="form-control" placeholder="Please enter Product Description" id="description" style="height:100px; margin:0 0 10px 0"></textarea>
+        </div>
+        <select name="quality" class="form-select" aria-label="Default select example">
+          <option selected>Select a quality</option>
+          <option value="Used">Used</option>
+          <option value="Like New">Like New</option>
+          <option value="Unboxed">Unboxed</option>
+          <option value="Sealed">Sealed</option>
+        </select>
+        <br>
+        <div class="mb-3">
+          <label for="price" class="form-label">Item Price</label>
+          <input name="price" value= "{{request.form.price}}" type="text" class="form-control" id="price" placeholder="Please enter the price of the listing" required>
+        </div>
+        <input type="submit" value="Submit" class="btn btn-primary">
+        
+      </form>
+    </div>
+      
+      <p>
+        {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul class="registerError">
+        {% for message in messages %}
+        <li class="registerError">{{ message }}</li>
         {% endfor %}
-    </select>
-    <br>
-    <label for="description">Price: </label>
-    <input type="text" id="price" name="price" value="{{request.form.price }}" required>
-    <input type="submit" value="Submit">
-
-</form>
-
-{% endblock content %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+    </p>
+    
+  </div>
+  
+</div>
+  
+  
+  {% endblock content %}
