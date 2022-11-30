@@ -31,10 +31,19 @@ class ListingFuncs:
     #fetches all listings for a specific user and generates HTML previews
     def generateUsrListings(self, username):
         usrListingsHTML = ""
-        for listing in self.collection.find({"account":username.lower()}):
-            HTML = self.generateListingPreviews(listing)
+        #Creates a 2D list where each element is a list of all attributes for each listing
+        listings = [list(x.values()) for x in self.collection.find({"account":username.lower()})]
+        #For each element, it generates HTML to represent it and then adds this to the string
+        for listing in listings:
+            HTML = self.generateListingPreviewsList(listing)
             usrListingsHTML += HTML
         return usrListingsHTML
+
+    def generateLabel(listingTitle, listingOwner):
+        print("GENERATED LABEL")
+
+    def saveLabel(label):
+        print("SAVING LABEL TO LOCAL SYSTEM")
 
     #fetches specfiic listing from database from its title
     def fetchSpecificListing(self, title, author):
@@ -77,6 +86,24 @@ class ListingFuncs:
                 <a class='listingPreviewLinks' href='/listing/{listing["title"]}?account={listing["account"]}'>{listing["title"]}</a>
                 <h3 style='vertical-align:top;'>£{listing["price"]}</h3>
                 <h4 style='vertical-align:top;'>{listing["account"].capitalize()}</h4>
+            </div>
+        </div>
+        """
+        return listingHTML
+
+    #Produces html formatted rows of item previews
+    def generateListingPreviewsList(self, listing):
+        if int(listing[5])==listing[5]:
+            listing[5] = str(listing[5]) + "0"
+        listingHTML = f"""
+        <div class='listingPreviewRow'>
+            <div>
+                <img src={listing[3]} alt='Product Image' class='listingImgPreview'>
+            </div>
+            <div>
+                <a class='listingPreviewLinks' href='/listing/{listing[2]}?account={listing[1]}'>{listing[2]}</a>
+                <h3 style='vertical-align:top;'>£{listing[5]}</h3>
+                <h4 style='vertical-align:top;'>{listing[1].capitalize()}</h4>
             </div>
         </div>
         """

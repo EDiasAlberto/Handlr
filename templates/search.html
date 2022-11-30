@@ -1,19 +1,45 @@
 {% extends "menubar.html" %}
 {% block content %}
 
-    <div id="searchBar">
+<div style="width:100%; padding:15px 0px;">
+    
+    <div id="searchBar" class="homePageMain" style="width:100%">
         <form method="POST" enctype="multipart/form-data">
-            <label for="Search">Search: </label>
-            <input type="text" id="query" name="query" value="{{request.form.query }}" required>
-            <select name="sort">
-                {% for attr in ["Quality", "Title", "Newest First", "Price (High to Low)", "Price (Low to High)", "Relevance"] %}
-                    <option value="{{attr}}" SELECTED>{{attr}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit" value="Submit">
+            <div class="row">
+                <div class="col">
+                    <input value="{{request.form.query}}" type="text" class="form-control" placeholder="Search query" name="query" required>
+                </div>
+                <div class="col">
+                    <select name="sort" class="form-select">
+                        <option value="Relevance" {%if choice=="Relevance" %} SELECTED {% endif %}>Relevance</option>
+                        <option value="Quality" {%if choice=="Quality" %} SELECTED {% endif %}>Quality</option>
+                        <option value="Title" {%if choice=="Title" %} SELECTED {% endif %}>Title</option>
+                        <option value="Newest First" {%if choice=="Newest First" %} SELECTED {% endif %}>Newest First</option>
+                        <option value="Price (High to Low)" {%if choice=="Price (High to Low)" %} SELECTED {% endif %}>Price (High to Low)</option>
+                        <option value="Price (Low to High)" {%if choice=="Price (Low to High)" %} SELECTED {% endif %}>Price (Low to High)</option>
+                        
+                    </select>
+                </div>
+                <div class="col">
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                </div>
+            </div>
         </form>
-    </div>
 
-    {{searchResults | safe}}
+    </div>
+</div>
+
+<br>
+<br>
+
+<div style="padding:15px 0px; width:100%; min-height:100px">
+    {% if searchResults %}
+        <div class="homePageMain" style="width:100%;">
+            {{searchResults | safe}}
+            
+        </div>
+    {% endif %}
+    
+</div>
 
 {% endblock content %}

@@ -72,10 +72,12 @@ def specificListing(listingTitle):
     if "username" in session:
         listingOwner = request.args.get("account")
         listing = listingFuncs.fetchSpecificListing(listingTitle, listingOwner)
+        isOwner = listingOwner.lower()==session["username"].lower()
         questions = questionFuncs.fetchQuestions(listingTitle, listingOwner)
         if int(listing["price"])==listing["price"]:
             listing["price"] = str(listing["price"]) + "0"
-        return render_template("specificListing.html",listing = listing, questions=questions)
+        print(isOwner)
+        return render_template("specificListing.html",listing = listing, questions=questions, isOwner=isOwner)
     return redirect(url_for("login"))
 
 @webapp.route("/purchase/<listingTitle>", methods=["POST"])
@@ -84,6 +86,15 @@ def purchaseListing(listingTitle):
         listingOwner = request.args.get("account")
         listing = listingFuncs.fetchSpecificListing(listingTitle, listingOwner)
         return f"<p>YOU HAVE PURCHASED ONE {listing['title']} at price £{listing['price']}!</p>"
+
+@webapp.route("/generateLabel/<ListingTitle>", methods=["POST"])
+def generateLabel(listingTitle):
+    if "username" in session:
+        listingOwner = request.args.get("account")
+        if listingOwner==session["username"]:
+            label = listingFuncs.generateLabel(listingTitle, listingOwner)
+            listingFuncs.saveLabel(label)
+            return render_template("specificListing.html", listingTitle=listingTitle, listingOwner=listingOwner)
 
 @webapp.route("/createListing", methods=["GET", "POST"])
 def createListing():
@@ -95,7 +106,6 @@ def createListing():
         quality = request.form.get("quality")
         price = float(request.form["price"])
         isValidListing = listingFuncs.createListing(session["username"].lower(), imgURL, title, desc, quality, price)
-        print(isValidListing)
         if not isValidListing:
             flash("Error! You already have a listing with this name")
             return render_template("createListing.html")
@@ -105,19 +115,31 @@ def createListing():
     else:
         return render_template("createListing.html")
 
+#Handles search page rendering and logic
 @webapp.route("/search", methods=["GET","POST"])
 def search():
+    #Checks if the user has submitted a search query
     if request.method=="POST":
         listingsHTML=""
-        SortingKeys = {"Relevance" : None, "Quality" : "quality", "Title" : "title", "Newest First" : "dateCreated", "Price (High to Low)" : "price", "Price (Low to High)" : "price"}
+        SortingKeys = {"Relevance" : None, "Quality" : "quality", "Title" : "title", 
+        "Newest First" : "dateCreated", "Price (High to Low)" : "price", "Price (Low to High)" : "price"}
+        #It then fetches all listings matching this query
         searchResults = listingFuncs.fetchSimilarListing(request.form["query"])
+        #Then it fetches the desired sorting of the listing items (default is similarity to query)
         sortValue = request.form.get("sort")
         if SortingKeys[sortValue] is not None:
-            searchResults = sorted(searchResults, key= lambda x: x[SortingKeys[sortValue]])
+            #This then sorts the fetched listings by the desired attribute, in descending/ascending order 
+            if sortValue=="Price (High to Low)":
+                searchResults = sorted(searchResults, key= lambda x: x[SortingKeys[sortValue]], reverse=True)
+            else:
+                searchResults=sorted(searchResults, key= lambda x: x[SortingKeys[sortValue]])
+        #Then HTML text is generated to render the sorted search results 
         for listing in searchResults:
             listingsHTML+=listingFuncs.generateListingPreviews(listing)
-        return render_template("search.html", searchResults = listingsHTML, classSearch="active")
-    return render_template("search.html", classSearch="active")
+        #Then the search page is refreshed to display the search results, sorted appropriately
+        return render_template("search.html", searchResults = listingsHTML, classSearch="active", choice=sortValue)
+    #If the user did not search anything yet, it only displays the search bar and an empty remainder of the page
+    return render_template("search.html", classSearch="active", choice="Relevance")
 
 
 @webapp.route("/account", methods=["GET", "POST"])
@@ -156,4 +178,5 @@ def newMenu():
 
 if __name__=="__main__":
     webapp.secret_key = flaskKey
-    webapp.run(host="192.168.1.141", port=4200, debug=True)
+    #listingFuncs.addAField("isSold", False)
+    webapp.run(port=4200, debug=True)

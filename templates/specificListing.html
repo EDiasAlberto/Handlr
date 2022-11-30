@@ -7,8 +7,20 @@
     <h3>By {{ listing["account"].capitalize() }}</h3>
     <h4>Price: £{{ listing["price"] }}</h4>
     <form method="POST" action="/purchase/{{listing['title']}}?account={{listing['account']}}">
-        <input type="submit" value="Purchase"></input>
+        {% if isOwner %}
+            <input type="submit" value="SOLD" disabled></input>
+        {% elif listing["isSold"]%}
+            <p>SOLD</p>
+        {% else %}
+            <input type="submit" value="Purchase"></input>
+        {% endif %}
     </form>
+    {% if isOwner and listing["isSold"] %}
+        <form method="POST" action="/generateLabel/{{listing['title']}}?account={{listing['account']}}">
+            
+                <input type="submit" value="Generate Postage Label"></input>
+        </form>
+    {% endif %}
     <hr>
     <div>
         <ul>
