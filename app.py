@@ -85,6 +85,7 @@ def purchaseListing(listingTitle):
     if "username" in session:
         listingOwner = request.args.get("account")
         listing = listingFuncs.fetchSpecificListing(listingTitle, listingOwner)
+        listingFuncs.sellItem(listing)
         return f"<p>YOU HAVE PURCHASED ONE {listing['title']} at price £{listing['price']}!</p>"
 
 @webapp.route("/generateLabel/<ListingTitle>", methods=["POST"])
@@ -178,5 +179,4 @@ def newMenu():
 
 if __name__=="__main__":
     webapp.secret_key = flaskKey
-    #listingFuncs.addAField("isSold", False)
     webapp.run(port=4200, debug=True)

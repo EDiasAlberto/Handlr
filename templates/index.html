@@ -4,12 +4,41 @@
 
     <br>  
     <div class="homePageMain">
-        <h1>Public Listings:</h1>
+        <div class="row">
+            <div class="col">
+                <h1>Public Listings:</h1>
+            </div>
+            <div class="col">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col">
+                            <select name="sort" class="form-select">
+                                <option value="Relevance" {%if choice=="Relevance" %} SELECTED {% endif %}>Relevance</option>
+                                <option value="Quality" {%if choice=="Quality" %} SELECTED {% endif %}>Quality</option>
+                                <option value="Title" {%if choice=="Title" %} SELECTED {% endif %}>Title</option>
+                                <option value="Newest First" {%if choice=="Newest First" %} SELECTED {% endif %}>Newest First</option>
+                                <option value="Price (High to Low)" {%if choice=="Price (High to Low)" %} SELECTED {% endif %}>Price (High to Low)</option>
+                                <option value="Price (Low to High)" {%if choice=="Price (Low to High)" %} SELECTED {% endif %}>Price (Low to High)</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="submit" class="btn btn-primary" value="Sort">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
         <br>
         {{publicListings | safe}}
     </div>
     <div class="homePageListings">
-        <h1>Your Listings:</h1>
+        <div class="row">
+            <div class="col">
+                <h1>Your Listings:</h1>
+            </div>
+        </div>
         <form method="GET" action="/createListing">
             <input type="submit" value="Create Listing"></input>
         </form>

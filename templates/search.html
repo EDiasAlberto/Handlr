@@ -33,10 +33,15 @@
 <br>
 
 <div style="padding:15px 0px; width:100%; min-height:100px">
-    {% if searchResults %}
+
+    {% if searchResults and searchResults|length!=0 %}
         <div class="homePageMain" style="width:100%;">
             {{searchResults | safe}}
             
+        </div>
+    {% else %}
+        <div class="homePageMain" style="width:100%;">
+            <p> No search results found</p>
         </div>
     {% endif %}
     

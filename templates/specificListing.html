@@ -8,9 +8,9 @@
     <h4>Price: £{{ listing["price"] }}</h4>
     <form method="POST" action="/purchase/{{listing['title']}}?account={{listing['account']}}">
         {% if isOwner %}
-            <input type="submit" value="SOLD" disabled></input>
+            <input type="submit" value="YOU OWN THIS" disabled></input>
         {% elif listing["isSold"]%}
-            <p>SOLD</p>
+            <input type="submit" value="SOLD" disabled></input>            
         {% else %}
             <input type="submit" value="Purchase"></input>
         {% endif %}
@@ -35,11 +35,13 @@
         </ul>
     </div>
 
+    {% if not isOwner %}
     <form method="POST" action="/postQuestion">
         <label for="question">Question: </label>
         <input type="text" id="question" name="question" value="{{request.form.question }}" required>
         <br>
         <input type="submit" value="Submit"></input>
     </form>
+    {% endif %}
 
 {% endblock content %}

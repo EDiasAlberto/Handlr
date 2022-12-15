@@ -32,7 +32,7 @@ class VerifyFuncs:
         self.__collection.update_one({"username":username.lower()}, {"$set":{"password":newPassword}})
         return isValid
 
-    def newUsr(username, password, confirmPassword):
+    def newUsr(self, username, password, confirmPassword):
         if password!=confirmPassword:
             return "The passwords do not match."
         elif self.__collection.find_one({"username":username.lower()})!=None:

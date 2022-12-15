@@ -11,3 +11,34 @@ class QuestionFuncs:
         questions = self.collection.find({"listingTitle":postTitle, "listingOwner":postAuthor.lower()})
         questionList = [x for x in questions]
         return questionList
+
+    def postQuestion(self, postTitle, postAuthor, question, questionOwner):
+        question = {
+            "listingTitle" : postTitle,
+            "listingOwner" : postAuthor,
+            "questionText" : question,
+            "questionOwner": quesitonOwner,
+            "Responses" : []
+        }
+        self.collection.insert_one(question)
+        return True
+
+    def ansQuestion(self, postTitle, postAuthor, question, questionOwner, answer):
+        filter = {
+            "listingTitle" : postTitle,
+            "listingOwner" : postAuthor,
+            "questionText" : question,
+            "questionOwner": questionOwner
+        }
+        question = self.collection.find_one(filter)
+        if question is not None:
+            responses = list(question["Responses"])
+        responses.append(answer)
+        update = {
+            "$set" : {
+                "Responses" : responses
+            }
+        }
+        self.collection.update_one(filter, update)
+
+        

@@ -39,11 +39,8 @@ class ListingFuncs:
             usrListingsHTML += HTML
         return usrListingsHTML
 
-    def generateLabel(listingTitle, listingOwner):
-        print("GENERATED LABEL")
-
-    def saveLabel(label):
-        print("SAVING LABEL TO LOCAL SYSTEM")
+    def sellItem(self, listing):
+        self.collection.update_one({"": False}, {"$set": {field : value}})
 
     #fetches specfiic listing from database from its title
     def fetchSpecificListing(self, title, author):
