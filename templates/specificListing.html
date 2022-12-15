@@ -21,6 +21,8 @@
                 <input type="submit" value="Generate Postage Label"></input>
         </form>
     {% endif %}
+
+    
     <hr>
     <div>
         <ul>
@@ -35,7 +37,7 @@
         </ul>
     </div>
 
-    
+
     {% if not isOwner %}
     <form method="POST" action="/postQuestion">
         <label for="question">Question: </label>
