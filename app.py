@@ -29,8 +29,9 @@ def login():
         if not valid:
             error = 'Invalid Credentials. Please try again.'
         else:
+            error = "Valid Credentials, continue."
             session["username"]=username
-            return redirect(url_for("index"))
+            return redirect(url_for("index", error="error"))
     return render_template('login.html', error=error, form=form)
 
 @webapp.route("/register", methods=['GET', 'POST'])
@@ -47,15 +48,19 @@ def register():
     return render_template('register.html')
 
 
-@webapp.route("/home")
-def index():
+@webapp.route("/home", methods=["POST", "GET"])
+def index(error=None):
     listingsHTML =""
+    try:
+        error= request.args.get("error")
+    except:
+        pass
     if "username" in session:
         randomListings = listingFuncs.fetchRandomisedListings()
         for i in range(5):
             listingsHTML+=listingFuncs.generateListingPreviews(randomListings[i])
         usrListingsHTML = listingFuncs.generateUsrListings(session["username"])
-        return render_template("index.html", publicListings=listingsHTML, usrListings=usrListingsHTML, classHome="active")
+        return render_template("index.html", publicListings=listingsHTML, usrListings=usrListingsHTML, classHome="active", error=error)
     else:
         return redirect(url_for("login"))
 
@@ -80,13 +85,34 @@ def specificListing(listingTitle):
         return render_template("specificListing.html",listing = listing, questions=questions, isOwner=isOwner)
     return redirect(url_for("login"))
 
+@webapp.route("/postQuestion/<listingTitle>", methods=["POST"])
+def postQuestion(listingTitle):
+    listingOwner = request.args.get("account")
+    questionOwner = session["username"]
+    question = request.form["question"].strip("?")
+    listing = listingFuncs.fetchSpecificListing(listingTitle, listingOwner)
+    questionFuncs.postQuestion(listingTitle, listingOwner, question, questionOwner)
+    return redirect(url_for("specificListing", listingTitle=listingTitle, account=listingOwner))
+
+@webapp.route("/ansQuestion/<questionText>", methods=["POST"])
+def ansQuestion(questionText):
+    questionOwner = request.args.get("questionOwner")
+    listingTitle = request.args.get("listingTitle")
+    listingOwner = request.args.get("listingOwner")
+    response = request.form["response"]
+    print(listingTitle, listingOwner, questionText, questionOwner, response)
+    questionFuncs.ansQuestion(listingTitle, listingOwner, questionText, questionOwner, response)
+    return redirect(url_for("specificListing", listingTitle=listingTitle, account=listingOwner))
+
+
 @webapp.route("/purchase/<listingTitle>", methods=["POST"])
 def purchaseListing(listingTitle):
     if "username" in session:
+        return render_template("payment.html")
         listingOwner = request.args.get("account")
         listing = listingFuncs.fetchSpecificListing(listingTitle, listingOwner)
         listingFuncs.sellItem(listing)
-        return f"<p>YOU HAVE PURCHASED ONE {listing['title']} at price £{listing['price']}!</p>"
+        return redirect(url_for("specificListing", listingTitle=listing["title"], account = listing["account"]))
 
 @webapp.route("/generateLabel/<ListingTitle>", methods=["POST"])
 def generateLabel(listingTitle):
@@ -105,7 +131,7 @@ def createListing():
         title = request.form["title"]
         desc = request.form["description"]
         quality = request.form.get("quality")
-        price = float(request.form["price"])
+        price = float(request.form["price"].strip("£"))
         isValidListing = listingFuncs.createListing(session["username"].lower(), imgURL, title, desc, quality, price)
         if not isValidListing:
             flash("Error! You already have a listing with this name")

@@ -17,7 +17,7 @@ class QuestionFuncs:
             "listingTitle" : postTitle,
             "listingOwner" : postAuthor,
             "questionText" : question,
-            "questionOwner": quesitonOwner,
+            "questionOwner": questionOwner,
             "Responses" : []
         }
         self.collection.insert_one(question)
@@ -31,6 +31,8 @@ class QuestionFuncs:
             "questionOwner": questionOwner
         }
         question = self.collection.find_one(filter)
+        print(question)
+        responses=[]
         if question is not None:
             responses = list(question["Responses"])
         responses.append(answer)

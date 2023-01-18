@@ -40,7 +40,12 @@ class ListingFuncs:
         return usrListingsHTML
 
     def sellItem(self, listing):
-        self.collection.update_one({"": False}, {"$set": {field : value}})
+        filter = {
+            "title" : listing["title"],
+            "account" : listing["account"],
+            "price" : listing["price"]
+        }
+        self.collection.update_one(filter, {"$set": {"isSold" : True}})
 
     #fetches specfiic listing from database from its title
     def fetchSpecificListing(self, title, author):

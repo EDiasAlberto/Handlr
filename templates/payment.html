@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='script.js')}}" type="text/javascript"></script>
+    <title>Handlr</title>
+</head>
+
+<body>
+    <div class="loginPageMain">
+        <img src="{{ url_for('static', filename='HandlrLogo.png')}}" class="logo">
+        <br>
+        <br>
+        <h1>Payment</h1>
+        <p>Please enter your payment details</p>
+        <div class="row">
+            
+            <div class="col" id="addressInfo" style="border:1px solid black" >
+                <form>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Address Line 1</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Postcode</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">City</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                      </div>
+                  </form>
+            </div>
+    
+            <div class="col" id="paymentInfo" style="border:1px solid black">
+                <form>
+                    <div id="emailHelp" class="form-text">Price: £699.99</div>
+                    <div id="emailHelp" class="form-text">Item: New Unused iPad Pro M1</div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Card Number: </label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">CVV: </label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Card Expiry Date: </label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Cancel</button>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</body>

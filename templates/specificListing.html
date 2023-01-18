@@ -1,51 +1,78 @@
 {% extends "menubar.html" %}
 {% block content %}
 
-    <h1>{{ listing["title"] }}</h1>
-    <img src="{{ listing['imageURL'] }}" alt='Product Image' class='listingImgPreview' style="max-height: 300px; max-width: 300px">
-    <br>
-    <h3>By {{ listing["account"].capitalize() }}</h3>
-    <h4>Price: £{{ listing["price"] }}</h4>
-    <form method="POST" action="/purchase/{{listing['title']}}?account={{listing['account']}}">
-        {% if isOwner %}
-            <input type="submit" value="YOU OWN THIS" disabled></input>
-        {% elif listing["isSold"]%}
+<div class="row gx-5" style="padding: 15px 30px">
+    <div class="homePageListings" style="width:100%">
+
+        
+        <h1>{{ listing["title"] }}</h1>
+        <h4><b>By {{ listing["account"].capitalize() }}</b></h4>
+        <img src="{{ listing['imageURL'] }}" alt='Product Image' class='listingImgPreview' style="width: 300px">
+        <br>
+        <div style=" border:1px solid #000000; border-radius:10px">
+            <p><b>Description:</b></p>
+            <p style="padding:10px;">{{listing["description"]}}</p>
+        </div>
+        <p><b>Price:</b> £{{ listing["price"] }}</p>
+        <form method="POST" action="/purchase/{{listing['title']}}?account={{listing['account']}}">
+            {% if listing["isSold"]%}
             <input type="submit" value="SOLD" disabled></input>            
-        {% else %}
+            {% elif isOwner %}
+            <input type="submit" value="YOU OWN THIS" disabled></input>
+            {% else %}
             <input type="submit" value="Purchase"></input>
-        {% endif %}
-    </form>
-    {% if isOwner and listing["isSold"] %}
-        <form method="POST" action="/generateLabel/{{listing['title']}}?account={{listing['account']}}">
-            
-                <input type="submit" value="Generate Postage Label"></input>
+            {% endif %}
         </form>
-    {% endif %}
-
-
+    </div>
+        
+</div>
+    
     <hr>
-    <div>
-        <ul>
-            {% for question in questions %}
-                <li>{{ question["questionText"] }} {{ question["questionOwner"] }}</li>
+<div class="row gx-5" style="padding: 15px 30px">
+
+    <div class="homePageListings" style="width:100%">
+        
+        
+        <h2> Questions:</h2>
+        <div>
+            <ul>
+                {% for question in questions %}
+                <li>"{{ question["questionText"] }}?" - {{ question["questionOwner"].capitalize() }}</li>
                 <ul>
                     {% for response in question["Responses"] %}
-                        <li> {{response}} </li>
+                    <li> {{response}} </li>
                     {% endfor %}
+                    {% if isOwner and question["Responses"]|length==0 %}
+                    <form method="POST" action="/ansQuestion/{{question['questionText']}}?questionOwner={{question['questionOwner']}}&listingTitle={{listing['title']}}&listingOwner={{listing['account']}}">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Response:</span>
+                            <input type="text" id="response" name="response" value="{{request.form.response}}" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                            <input class="btn btn-outline-secondary" type="submit" value="Submit"></input>
+                        </div>
+                    </form>
+                    {% endif %}
                 </ul>
-            {% endfor %}
-            
-        </ul>
+                {% endfor %}
+
+                {% if questions|length==0 %}
+                    <li> No Questions</li>
+                {% endif %}
+            </ul>
+        </div>
+        
+        
+        {% if not isOwner %}
+        <hr>
+
+        <form method="POST" action="/postQuestion/{{listing['title']}}?account={{listing['account']}}">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Question:</span>
+                <input type="text" id="question" name="question" value="{{request.form.question}}" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                <input class="btn btn-outline-secondary" type="submit" value="Submit"></input>
+            </div>
+        </form>
+        {% endif %}
+        
+        {% endblock content %}
     </div>
-
-
-    {% if not isOwner %}
-    <form method="POST" action="/postQuestion">
-        <label for="question">Question: </label>
-        <input type="text" id="question" name="question" value="{{request.form.question }}" required>
-        <br>
-        <input type="submit" value="Submit"></input>
-    </form>
-    {% endif %}
-
-{% endblock content %}
+</div>
